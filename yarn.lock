@@ -4689,6 +4689,13 @@ strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "http://npm.dev.dr-social.cn/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
 
+style-loader@^0.18.2:
+  version "0.18.2"
+  resolved "http://registry.npm.taobao.org/style-loader/download/style-loader-0.18.2.tgz#cc31459afbcd6d80b7220ee54b291a9fd66ff5eb"
+  dependencies:
+    loader-utils "^1.0.2"
+    schema-utils "^0.3.0"
+
 stylus-loader@^3.0.1:
   version "3.0.1"
   resolved "http://npm.dev.dr-social.cn/stylus-loader/-/stylus-loader-3.0.1.tgz#77f4b34fd030d25b2617bcf5513db5b0730c4089"
