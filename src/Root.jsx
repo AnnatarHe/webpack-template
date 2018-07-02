@@ -1,9 +1,13 @@
 import React from 'react'
 
+import { hot } from 'react-hot-loader'
+import styles from './Root.css'
 const Root = () => {
     return (
-        <div>root</div>
+      <div className={styles.container}>
+        hello
+      </div>
     )
 }
 
-export default Root
+export default hot(module)(Root)

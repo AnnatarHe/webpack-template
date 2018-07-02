@@ -1,29 +1,23 @@
 const path = require('path')
 const webpack = require('webpack')
 const config = require('./webpack.base.config')
+const convert = require('koa-connect');
+const history = require('connect-history-api-fallback');
+const proxy = require('http-proxy-middleware');
 
-config.target = 'web'
 config.devtool = 'inline-source-map'
 config.plugins.push(
-    new webpack.HotModuleReplacementPlugin(),
+    // new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin()
 )
 
-config.devServer = {
-    hot: true,
-    port: 8080,
-    contentBase: path.resolve(__dirname, '..'),
-    historyApiFallback: true,
-    proxy: {
-        '/api/*': {
-            target: 'http://127.0.0.1:9000',
-            secure: false
-        },
-        '/public/*': {
-            target: 'http://127.0.0.1:9000',
-            secure: false
-        }
-    }
-}
-
 module.exports = config
+module.exports.serve = {
+  content: path.resolve(__dirname, '..', 'dist'),
+  host: 'localhost',
+  port: 8080,
+  add: (app) => {
+    // app.use(convert(proxy('/api', { target: 'http://localhost:8081' })));
+    app.use(convert(history()));
+  }
+};

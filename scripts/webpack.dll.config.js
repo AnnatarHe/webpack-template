@@ -26,6 +26,7 @@ const config = {
     // add your entrys
     vendor: vendors
   },
+  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   devtool: process.env.NODE_ENV !== 'production' ? '#source-map' : false,
   plugins: [
     new webpack.DllPlugin({

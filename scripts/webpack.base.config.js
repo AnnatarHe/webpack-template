@@ -1,16 +1,16 @@
 const webpack = require('webpack')
 const path = require('path')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const AddAssertHtmlPlugin = require('add-asset-html-webpack-plugin')
 const poststylus = require('poststylus')
 const values = require('postcss-modules-values')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
 const config = {
+  mode: process.env.NODE_ENV,
+  target: 'web',
   entry: [
-    'babel-polyfill',
     'whatwg-fetch',
-    'react-hot-loader/patch',
     './src/App.jsx'
   ],
   output: {
@@ -26,27 +26,24 @@ const config = {
     }, {
       test: /.styl$/,
       exclude: /node_modules/,
-      use: ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: [ 'css-loader', 'stylus-loader' ]
-      })
+      use: [
+        MiniCssExtractPlugin.loader, 'css-loader', 'stylus-loader'
+      ],
     }, {
       test: /.css$/,
       exclude: /node_modules/,
-      use: ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: [
-          'css-loader?modules=true&camelCase=true&localIdentName=[name]_[local]-[hash:base64]&sourceMap=true',
-          'postcss-loader'
-        ]
-      })
+      use: [
+        MiniCssExtractPlugin.loader,
+        'css-loader?modules=true&camelCase=true&localIdentName=[name]_[local]-[hash:base64]&sourceMap=true',
+        'postcss-loader'
+      ]
     }, {
       test: /.css$/,
       include: /node_modules/,
-      use: ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: ['css-loader']
-      })
+      use: [
+        MiniCssExtractPlugin.loader,
+        'css-loader'
+      ]
     }, {
       test: /\.(png|jpg|jpeg|gif)$/,
       use: [{loader: 'url-loader', options: {limit: 500, name: '[name]-[hash].[ext]'}}]
@@ -69,19 +66,15 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
+      filename: 'index.html',
       title: 'Webpack Template',
+      template: path.resolve(__dirname, 'template.html'),
       inject: 'body',
-      template: path.resolve(__dirname, 'template.html')
+      chunks: ['main', 'common', 'manifest', 'styles'],
     }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'common',
-      filename: '[name].[hash:8].js',
-      minChunks: Infinity
-    }),
-    new ExtractTextPlugin({
-      filename: 'app.[contenthash:8].css',
-      disable: false,
-      allChunks: true
+    new MiniCssExtractPlugin({
+      filename: "app.[contenthash].css",
+      chunkFilename: "[id].[contenthash].css"
     }),
     new AddAssertHtmlPlugin({
       filepath: path.resolve(__dirname, '..', 'dist', '*.dll.js'),
@@ -97,8 +90,39 @@ const config = {
           use: [poststylus([require('autoprefixer')])]
         }
       }
-    })
+    }),
+    new webpack.NamedModulesPlugin()
   ],
+  optimization: {
+    runtimeChunk: {
+      name: 'manifest',
+    },
+    splitChunks: {
+      chunks: 'async',
+      minSize: 30000,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      name: false,
+      cacheGroups: {
+        vendor: {
+          name: 'common',
+          chunks: 'initial',
+          priority: -10,
+          reuseExistingChunk: false,
+          test: /node_modules\/(.*)\.js/,
+        },
+        styles: {
+          name: 'styles',
+          test: /\.(scss|css|less)$/,
+          chunks: 'all',
+          minChunks: 1,
+          reuseExistingChunk: true,
+          enforce: true,
+        },
+      },
+    },
+  },
   resolve: {
     extensions: ['.js', '.jsx', '.styl']
   }
