@@ -5,6 +5,7 @@ const AddAssertHtmlPlugin = require('add-asset-html-webpack-plugin')
 const poststylus = require('poststylus')
 const values = require('postcss-modules-values')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
 
 const config = {
   mode: process.env.NODE_ENV,
@@ -79,6 +80,9 @@ const config = {
     new AddAssertHtmlPlugin({
       filepath: path.resolve(__dirname, '..', 'dist', '*.dll.js'),
       includeSourcemap: process.env.NODE_ENV !== 'production'
+    }),
+    new ScriptExtHtmlWebpackPlugin({
+      inline: ['runtime']
     }),
     new webpack.DefinePlugin({
       __DEV__: process.env.NODE_ENV === 'development'
