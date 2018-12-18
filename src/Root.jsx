@@ -5,7 +5,7 @@ import styles from './Root.css'
 const Root = () => {
     return (
       <div className={styles.container}>
-        hello
+        hello world
       </div>
     )
 }
