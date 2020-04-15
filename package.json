@@ -92,7 +92,7 @@
     "react-dom": "^16.13.1",
     "react-hot-loader": "^4.12.20",
     "react-transition-group": "^2.9.0",
-    "webpack-bundle-analyzer": "^2.13.1",
+    "webpack-bundle-analyzer": "^3.3.2",
     "whatwg-fetch": "^2.0.4"
   }
 }
