@@ -132,7 +132,7 @@ const config = {
     },
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.styl']
+    extensions: ['.js', '.jsx', '.styl', '.ts', '.tsx']
   }
 }
 

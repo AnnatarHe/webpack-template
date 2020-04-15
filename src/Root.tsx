@@ -11,4 +11,4 @@ function Root() {
     )
 }
 
-export default hot(Root)
+export default hot(module)(Root)
