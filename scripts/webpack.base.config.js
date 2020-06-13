@@ -28,6 +28,10 @@ const config = {
       exclude: [path.resolve(__dirname, '..', 'node_modules')],
       use: ['babel-loader']
     }, {
+      test: /.tsx?$/,
+      exclude: [path.resolve(__dirname, '..', 'node_modules')],
+      use: ['ts-loader']
+    }, {
       test: /.styl$/,
       exclude: /node_modules/,
       use: [
@@ -138,7 +142,7 @@ const config = {
     },
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.styl']
+    extensions: ['.js', '.jsx', '.styl', '.ts', '.tsx']
   }
 }
 

@@ -1,8 +1,9 @@
+import { hot } from 'react-hot-loader'
 import React from 'react'
 
-import { hot } from 'react-hot-loader'
-import styles from './Root.css'
-const Root = () => {
+const styles = require('./Root.css')
+
+function Root() {
     return (
       <div className={styles.container}>
         hello world
