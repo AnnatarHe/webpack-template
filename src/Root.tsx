@@ -1,6 +1,7 @@
 import { hot } from 'react-hot-loader'
 import React from 'react'
 
+import './global.css'
 const styles = require('./Root.css')
 
 function Root() {
